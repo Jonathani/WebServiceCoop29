@@ -4,9 +4,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.StringReader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.swing.JOptionPane;
 import javax.xml.bind.DatatypeConverter;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.soap.MessageFactory;
@@ -48,37 +50,35 @@ public class ClienteBean {
 		mostrarConsulta = false;
 	}
 
-	public String consulta() {
-		try {
-			// ClienteBean client = new ClienteBean();
-			// Mensaje2
-			String[] variables2 = { "tipoDocumento", "numeroDocumento",
-					"fechaNacimiento", "genero", "EstadoCivil", "TipoCredito",
-					"Convenio", "Cargas" };
-			// Object[] values2 = { this.tipoDocumento, this.numeroDocumento,
-			// this.fechaNacimiento, this.genero, this.estadoCivil,
-			// this.tipoCredito, this.convenio, this.cargas };
+	public String consulta() throws Exception {
 
-			Object[] values2 = { cliente.getTipoDocumento(),
-					cliente.getNumeroDocumento(),
-					formatoFecha.format(cliente.getFechaNacimiento()),
-					cliente.getGenero(), cliente.getEstadoCivil(),
-					cliente.getTipoCredito(), cliente.getConvenio(),
-					cliente.getCargas() };
-			// Object[] values2 = { "C", "1718297383", "1989-10-02", "M", "S",
-			// "C", "S", "N" };
+		// ClienteBean client = new ClienteBean();
+		// Mensaje2
+		String[] variables2 = { "tipoDocumento", "numeroDocumento",
+				"fechaNacimiento", "genero", "EstadoCivil", "TipoCredito",
+				"Convenio", "Cargas" };
+		// Object[] values2 = { this.tipoDocumento, this.numeroDocumento,
+		// this.fechaNacimiento, this.genero, this.estadoCivil,
+		// this.tipoCredito, this.convenio, this.cargas };
 
-			SOAPMessage inputMessage2;
-			inputMessage2 = createSOAPRequest("ObtenerReporte29deOctubre",
-					variables2, values2);
-			String response = sendMessage(inputMessage2);
-			respuesta = format(response);
-			System.out.println(respuesta);
-			// System.out.println(response);
-			//
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
+		Object[] values2 = { cliente.getTipoDocumento(),
+				cliente.getNumeroDocumento(),
+				formatoFecha.format(cliente.getFechaNacimiento()),
+				cliente.getGenero(), cliente.getEstadoCivil(),
+				cliente.getTipoCredito(), cliente.getConvenio(),
+				cliente.getCargas() };
+		// Object[] values2 = { "C", "1718297383", "1989-10-02", "M", "S",
+		// "C", "S", "N" };
+
+		SOAPMessage inputMessage2;
+		inputMessage2 = createSOAPRequest("ObtenerReporte29deOctubre",
+				variables2, values2);
+		String response = sendMessage(inputMessage2);
+		respuesta = format(response);
+		System.out.println(respuesta);
+		//JOptionPane.showMessageDialog(null, respuesta);
+		// System.out.println(response);
+		//
 		return respuesta;
 	}
 
