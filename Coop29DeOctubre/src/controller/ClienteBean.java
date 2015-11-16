@@ -4,8 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.StringReader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -30,20 +28,14 @@ import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSSerializer;
 import org.xml.sax.InputSource;
 
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
-
 @ManagedBean
 @ViewScoped
 public class ClienteBean {
 
 	private Cliente cliente;
-
 	private DateFormat formatoFecha;
 	private boolean mostrarConsulta;
-	private String response;
-	private String res = "Hola";
-	private XStream xs;
+	private String respuesta;
 
 	public ClienteBean() {
 		super();
@@ -79,14 +71,15 @@ public class ClienteBean {
 			SOAPMessage inputMessage2;
 			inputMessage2 = createSOAPRequest("ObtenerReporte29deOctubre",
 					variables2, values2);
-			response = sendMessage(inputMessage2);
-			System.out.println(format(response));
+			String response = sendMessage(inputMessage2);
+			respuesta = format(response);
+			System.out.println(respuesta);
 			// System.out.println(response);
 			//
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		return format(response);
+		return format(respuesta);
 	}
 
 	public void prueba() {
@@ -225,28 +218,20 @@ public class ClienteBean {
 		this.mostrarConsulta = mostrarConsulta;
 	}
 
-	public String getRes() {
-		return res;
-	}
-
-	public void setRes(String res) {
-		this.res = res;
-	}
-
-	public String getResponse() {
-		return response;
-	}
-
-	public void setResponse(String response) {
-		this.response = response;
-	}
-
 	public DateFormat getFormatoFecha() {
 		return formatoFecha;
 	}
 
 	public void setFormatoFecha(DateFormat formatoFecha) {
 		this.formatoFecha = formatoFecha;
+	}
+
+	public String getRespuesta() {
+		return respuesta;
+	}
+
+	public void setRespuesta(String respuesta) {
+		this.respuesta = respuesta;
 	}
 
 }
