@@ -79,7 +79,7 @@ public class ClienteBean {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		return format(respuesta);
+		return respuesta;
 	}
 
 	public void prueba() {
