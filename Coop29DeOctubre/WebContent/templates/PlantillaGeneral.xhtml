@@ -1,26 +1,51 @@
-<?xml version='1.0' encoding='UTF-8' ?> 
+<?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html">
 
-    <h:head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <h:outputStylesheet library="css" name="cssLayout.css" />
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<h:outputStylesheet library="css" name="cssLayout.css" />
 
-        <title>Facelets Template</title>
-    </h:head>
+	<title>Facelets Template</title>
+</h:head>
 
-    <h:body>
+<h:body>
 
-        <div id="top" class="top">
-            <ui:insert name="top">Top</ui:insert>
-        </div>
+	<div id="total" class="total"
+		style="position: absolute; width: 1000px; height: 700px; margin: 5px; float: left; left: 200px;">
 
-        <div id="content" class="center_content">
-            <ui:insert name="content">Content</ui:insert>
-        </div>
+		<div id="top" class="top">
+			<ui:insert name="top">
+				<img src="#{request.contextPath}/utils/images/logo3.jpg"
+					alt="HC-CONSULTORES"
+					style="position: relative; width: 150px; height: 110px; margin: 5px; float: left; top: 0px; left: 830px;" />
+				<center>
+					<h2>COOPERATIVA DE AHORRO Y CREDITO</h2>
+					<h1>"29 DE OCTUBRE" LTDA</h1>
+				</center>
 
-    </h:body>
+			</ui:insert>
+		</div>
+
+		<div id="content" class="center_content"
+			style="border-radius: 10px 10px 10px 10px; -moz-border-radius: 10px 10px 10px 10px; -webkit-border-radius: 10px 10px 10px 10px; border: 0px solid #000000;">
+			<ui:insert name="content">Content</ui:insert>
+		</div>
+
+		<div id="bottom">
+			<ui:insert name="bottom">
+				<center>
+					<h4>© COOPERATIVA DE AHORRO Y CRÉDITO "29 DE OCTUBRE" LTDA. -
+						TODOS LOS DERECHOS RESERVADOS</h4>
+				</center>
+				<center>
+					<h4>ECUADOR - 2013</h4>
+				</center>
+			</ui:insert>
+		</div>
+	</div>
+</h:body>
 
 </html>

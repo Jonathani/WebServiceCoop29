@@ -12,97 +12,94 @@
 
 </h:head>
 <h:body>
-
 	<h:form>
-		<p:growl id="msgs" showDetail="true" />
-		<center>
-			<h1>Consulta de Datos de la "Coop 29 de Octubre"</h1>
-		</center>
+		<ui:composition template="/templates/PlantillaGeneral.xhtml">
 
-		<div style="position: absolute; top: 80px; left: 100px;">
-			<br></br>
-			<p:outputLabel for="txtTipoDocumento" value="Tipo Documento" />
-			<br></br>
-			<p:selectOneMenu id="txtTipoDocumento" style="width:230px"
-				value="#{clienteBean.cliente.tipoDocumento}">
-				<f:selectItem itemLabel="Cedula" itemValue="C" />
-				<f:selectItem itemLabel="Extranjero" itemValue="E" />
-			</p:selectOneMenu>
+			<ui:define name="content">
+				<p:growl id="msgs" showDetail="true" />
+				<div style="position: relative; top: 0px; left: 100px;">
+					<br></br>
+					<p:outputLabel for="txtTipoDocumento" value="Tipo Documento" />
+					<br></br>
+					<p:selectOneMenu id="txtTipoDocumento" style="width:230px"
+						value="#{clienteBean.cliente.tipoDocumento}">
+						<f:selectItem itemLabel="Cedula" itemValue="C" />
+						<f:selectItem itemLabel="Extranjero" itemValue="E" />
+					</p:selectOneMenu>
 
-			<br></br>
-			<p:outputLabel for="txtNumeroDocumento" value="Numero de Documento" />
-			<br></br>
-			<p:inputText id="txtNumeroDocumento"
-				value="#{clienteBean.cliente.numeroDocumento}" />
+					<br></br>
+					<p:outputLabel for="txtNumeroDocumento" value="Numero de Documento" />
+					<br></br>
+					<p:inputText id="txtNumeroDocumento"
+						value="#{clienteBean.cliente.numeroDocumento}" />
 
-			<br></br>
-			<p:outputLabel for="txtFechaNacimiento" value="Fecha de Nacimiento" />
-			<br></br>
-			<p:calendar id="txtFechaNacimiento"
-				value="#{clienteBean.cliente.fechaNacimiento}" locale="es_ES"
-				effect="explode" navigator="true" pattern="yyyy-MM-dd" />
+					<br></br>
+					<p:outputLabel for="txtFechaNacimiento" value="Fecha de Nacimiento" />
+					<br></br>
+					<p:calendar id="txtFechaNacimiento"
+						value="#{clienteBean.cliente.fechaNacimiento}" locale="es_ES"
+						effect="explode" navigator="true" pattern="yyyy-MM-dd" />
 
-			<br></br>
-			<p:outputLabel for="txtGenero" value="Genero" />
-			<br></br>
-			<p:selectOneMenu id="txtGenero" style="width:230px"
-				value="#{clienteBean.cliente.genero}">
-				<f:selectItem itemLabel="Femenino" itemValue="F" />
-				<f:selectItem itemLabel="Masculino" itemValue="M" />
-			</p:selectOneMenu>
+					<br></br>
+					<p:outputLabel for="txtGenero" value="Genero" />
+					<br></br>
+					<p:selectOneMenu id="txtGenero" style="width:230px"
+						value="#{clienteBean.cliente.genero}">
+						<f:selectItem itemLabel="Femenino" itemValue="F" />
+						<f:selectItem itemLabel="Masculino" itemValue="M" />
+					</p:selectOneMenu>
 
-			<br></br>
-			<p:outputLabel for="txtEstadoCivil" value="Estado Civil" />
-			<br></br>
-			<p:selectOneMenu id="txtEstadoCivil" style="width:230px"
-				value="#{clienteBean.cliente.estadoCivil}">
-				<f:selectItem itemLabel="Casado" itemValue="C" />
-				<f:selectItem itemLabel="Soltero" itemValue="S" />
-				<f:selectItem itemLabel="Union Libre" itemValue="U" />
-				<f:selectItem itemLabel="Divorciado" itemValue="D" />
-				<f:selectItem itemLabel="Viudo" itemValue="V" />
-				<f:selectItem itemLabel="No definido" itemValue="N" />
-			</p:selectOneMenu>
+					<br></br>
+					<p:outputLabel for="txtEstadoCivil" value="Estado Civil" />
+					<br></br>
+					<p:selectOneMenu id="txtEstadoCivil" style="width:230px"
+						value="#{clienteBean.cliente.estadoCivil}">
+						<f:selectItem itemLabel="Casado" itemValue="C" />
+						<f:selectItem itemLabel="Soltero" itemValue="S" />
+						<f:selectItem itemLabel="Union Libre" itemValue="U" />
+						<f:selectItem itemLabel="Divorciado" itemValue="D" />
+						<f:selectItem itemLabel="Viudo" itemValue="V" />
+						<f:selectItem itemLabel="No definido" itemValue="N" />
+					</p:selectOneMenu>
 
-			<br></br>
-			<p:outputLabel for="txtTipoCredito" value="Tipo Credito" />
-			<br></br>
-			<p:selectOneMenu id="txtTipoCredito" style="width:230px"
-				value="#{clienteBean.cliente.tipoCredito}">
-				<f:selectItem itemLabel="Consumo" itemValue="C" />
-				<f:selectItem itemLabel="Vivienda" itemValue="V" />
-				<f:selectItem itemLabel="Titularizacion" itemValue="T" />
-				<f:selectItem itemLabel="Microcredito" itemValue="M" />
-			</p:selectOneMenu>
+					<br></br>
+					<p:outputLabel for="txtTipoCredito" value="Tipo Credito" />
+					<br></br>
+					<p:selectOneMenu id="txtTipoCredito" style="width:230px"
+						value="#{clienteBean.cliente.tipoCredito}">
+						<f:selectItem itemLabel="Consumo" itemValue="C" />
+						<f:selectItem itemLabel="Vivienda" itemValue="V" />
+						<f:selectItem itemLabel="Titularizacion" itemValue="T" />
+						<f:selectItem itemLabel="Microcredito" itemValue="M" />
+					</p:selectOneMenu>
 
-			<br></br>
-			<p:outputLabel for="txtConvenio" value="Convenio" />
-			<br></br>
-			<p:selectOneMenu id="txtConvenio" style="width:230px"
-				value="#{clienteBean.cliente.convenio}">
-				<f:selectItem itemLabel="Sin convenio" itemValue="S" />
-				<f:selectItem itemLabel="Con convenio" itemValue="C" />
-			</p:selectOneMenu>
+					<br></br>
+					<p:outputLabel for="txtConvenio" value="Convenio" />
+					<br></br>
+					<p:selectOneMenu id="txtConvenio" style="width:230px"
+						value="#{clienteBean.cliente.convenio}">
+						<f:selectItem itemLabel="Sin convenio" itemValue="S" />
+						<f:selectItem itemLabel="Con convenio" itemValue="C" />
+					</p:selectOneMenu>
 
-			<br></br>
-			<p:outputLabel for="txtCargas" value="Cargas" />
-			<br></br>
-			<p:selectOneMenu id="txtCargas" style="width:230px"
-				value="#{clienteBean.cliente.cargas}">
-				<f:selectItem itemLabel="Si registra cargas" itemValue="S" />
-				<f:selectItem itemLabel="No registra cargas" itemValue="N" />
-			</p:selectOneMenu>
+					<br></br>
+					<p:outputLabel for="txtCargas" value="Cargas" />
+					<br></br>
+					<p:selectOneMenu id="txtCargas" style="width:230px"
+						value="#{clienteBean.cliente.cargas}">
+						<f:selectItem itemLabel="Si registra cargas" itemValue="S" />
+						<f:selectItem itemLabel="No registra cargas" itemValue="N" />
+					</p:selectOneMenu>
 
-			<br></br> <br></br> <br></br>
-			<p:commandButton value="Consultar" icon="ui-icon-search"
-				action="#{clienteBean.consulta}">
-			</p:commandButton>
+					<br></br> <br></br> <br></br>
+					<p:commandButton value="Consultar" icon="ui-icon-search"
+						action="#{clienteBean.consulta}">
+					</p:commandButton>
+				</div>
 
-		</div>
-
-		
+			</ui:define>
+		</ui:composition>
 
 	</h:form>
-
 </h:body>
 </html>
