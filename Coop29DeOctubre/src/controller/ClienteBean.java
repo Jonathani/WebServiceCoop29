@@ -62,6 +62,7 @@ public class ClienteBean {
 		String response = sendMessage(inputMessage2);
 		respuesta = format(response);
 		System.out.println(respuesta);
+		System.out.println(format(response));
 		return respuesta;
 	}
 

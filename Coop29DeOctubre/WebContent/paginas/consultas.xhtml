@@ -12,12 +12,12 @@
 
 </h:head>
 <h:body>
-	<h:form>
-		<p:growl id="msgs" showDetail="true" />
-		<ui:composition template="/templates/plantillaGeneral.xhtml">
 
-			<ui:define name="content">
+	<p:growl id="msgs" showDetail="true" />
+	<ui:composition template="/templates/plantillaGeneral.xhtml">
 
+		<ui:define name="content">
+			<h:form>
 				<div style="position: relative; top: 0px; left: 50px;">
 					<br></br>
 					<p:outputLabel for="txtTipoDocumento" value="Tipo Documento" />
@@ -101,10 +101,10 @@
 						action="#{clienteBean.consulta}">
 					</p:commandButton>
 				</div>
+			</h:form>
+		</ui:define>
+	</ui:composition>
 
-			</ui:define>
-		</ui:composition>
 
-	</h:form>
 </h:body>
 </html>
