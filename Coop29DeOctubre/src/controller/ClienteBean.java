@@ -4,7 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.StringReader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.xml.bind.DatatypeConverter;
@@ -34,7 +33,6 @@ public class ClienteBean {
 
 	private Cliente cliente;
 	private DateFormat formatoFecha;
-	private boolean mostrarConsulta;
 	private String respuesta;
 
 	public ClienteBean() {
@@ -43,21 +41,11 @@ public class ClienteBean {
 		formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
 	}
 
-	@PostConstruct
-	public void postConstructClientesBean() {
-		mostrarConsulta = false;
-	}
-
 	public String consulta() throws Exception {
 
-		// ClienteBean client = new ClienteBean();
-		// Mensaje2
 		String[] variables2 = { "tipoDocumento", "numeroDocumento",
 				"fechaNacimiento", "genero", "EstadoCivil", "TipoCredito",
 				"Convenio", "Cargas" };
-		// Object[] values2 = { this.tipoDocumento, this.numeroDocumento,
-		// this.fechaNacimiento, this.genero, this.estadoCivil,
-		// this.tipoCredito, this.convenio, this.cargas };
 
 		Object[] values2 = { cliente.getTipoDocumento(),
 				cliente.getNumeroDocumento(),
@@ -74,14 +62,7 @@ public class ClienteBean {
 		String response = sendMessage(inputMessage2);
 		respuesta = format(response);
 		System.out.println(respuesta);
-		//JOptionPane.showMessageDialog(null, respuesta);
-		// System.out.println(response);
-		//
 		return respuesta;
-	}
-
-	public void prueba() {
-		mostrarConsulta = true;
 	}
 
 	public String format(String xml) {
@@ -119,8 +100,7 @@ public class ClienteBean {
 			return writer.writeToString(document);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
-			// e.printStackTrace();
-			// return e.getMessage();
+
 		}
 	}
 
@@ -206,14 +186,6 @@ public class ClienteBean {
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
-	}
-
-	public boolean isMostrarConsulta() {
-		return mostrarConsulta;
-	}
-
-	public void setMostrarConsulta(boolean mostrarConsulta) {
-		this.mostrarConsulta = mostrarConsulta;
 	}
 
 	public DateFormat getFormatoFecha() {

@@ -13,11 +13,12 @@
 </h:head>
 <h:body>
 	<h:form>
-		<ui:composition template="/templates/PlantillaGeneral.xhtml">
+		<p:growl id="msgs" showDetail="true" />
+		<ui:composition template="/templates/plantillaGeneral.xhtml">
 
 			<ui:define name="content">
-				<p:growl id="msgs" showDetail="true" />
-				<div style="position: relative; top: 0px; left: 100px;">
+
+				<div style="position: relative; top: 0px; left: 50px;">
 					<br></br>
 					<p:outputLabel for="txtTipoDocumento" value="Tipo Documento" />
 					<br></br>
@@ -31,14 +32,18 @@
 					<p:outputLabel for="txtNumeroDocumento" value="Numero de Documento" />
 					<br></br>
 					<p:inputText id="txtNumeroDocumento"
-						value="#{clienteBean.cliente.numeroDocumento}" />
+						value="#{clienteBean.cliente.numeroDocumento}" maxlength="10"
+						required="true"
+						requiredMessage="El Numero de Cedula es obligatorio" />
 
 					<br></br>
 					<p:outputLabel for="txtFechaNacimiento" value="Fecha de Nacimiento" />
 					<br></br>
 					<p:calendar id="txtFechaNacimiento"
 						value="#{clienteBean.cliente.fechaNacimiento}" locale="es_ES"
-						effect="explode" navigator="true" pattern="yyyy-MM-dd" />
+						effect="explode" navigator="true" pattern="yyyy-MM-dd"
+						maxlength="10" required="true"
+						requiredMessage="La Fecha de Nacimiento es obligatorio" />
 
 					<br></br>
 					<p:outputLabel for="txtGenero" value="Genero" />
