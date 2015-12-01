@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<clientes>
+	<cliente nombre="Cliente">
+		<campos>
+			<tipoDocumento>C</tipoDocumento>
+			<cedulaClie>1718297383</cedulaClie>
+			<fechaNacimiento>1989-10-02</fechaNacimiento>
+			<genero>M</genero>
+			<estadoCivil>S</estadoCivil>
+			<tipoCredito>C</tipoCredito>
+			<convenio>S</convenio>
+			<cargas>N</cargas>
+		</campos>
+	</cliente>
+</clientes>
