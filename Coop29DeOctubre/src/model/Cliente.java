@@ -8,10 +8,10 @@ public class Cliente {
 	private Date fechaNacimiento;
 	private String fechaNacimiento1;
 	private String genero;
-	private String EstadoCivil;
-	private String TipoCredito;
-	private String Convenio;
-	private String Cargas;
+	private String estadoCivil;
+	private String tipoCredito;
+	private String convenio;
+	private String cargas;
 
 	public Cliente() {
 		super();
@@ -41,38 +41,6 @@ public class Cliente {
 		this.genero = genero;
 	}
 
-	public String getEstadoCivil() {
-		return EstadoCivil;
-	}
-
-	public void setEstadoCivil(String estadoCivil) {
-		EstadoCivil = estadoCivil;
-	}
-
-	public String getTipoCredito() {
-		return TipoCredito;
-	}
-
-	public void setTipoCredito(String tipoCredito) {
-		TipoCredito = tipoCredito;
-	}
-
-	public String getConvenio() {
-		return Convenio;
-	}
-
-	public void setConvenio(String convenio) {
-		Convenio = convenio;
-	}
-
-	public String getCargas() {
-		return Cargas;
-	}
-
-	public void setCargas(String cargas) {
-		Cargas = cargas;
-	}
-
 	public Date getFechaNacimiento() {
 		return fechaNacimiento;
 	}
@@ -87,6 +55,38 @@ public class Cliente {
 
 	public void setFechaNacimiento1(String fechaNacimiento1) {
 		this.fechaNacimiento1 = fechaNacimiento1;
+	}
+
+	public String getEstadoCivil() {
+		return estadoCivil;
+	}
+
+	public void setEstadoCivil(String estadoCivil) {
+		this.estadoCivil = estadoCivil;
+	}
+
+	public String getTipoCredito() {
+		return tipoCredito;
+	}
+
+	public void setTipoCredito(String tipoCredito) {
+		this.tipoCredito = tipoCredito;
+	}
+
+	public String getConvenio() {
+		return convenio;
+	}
+
+	public void setConvenio(String convenio) {
+		this.convenio = convenio;
+	}
+
+	public String getCargas() {
+		return cargas;
+	}
+
+	public void setCargas(String cargas) {
+		this.cargas = cargas;
 	}
 
 }

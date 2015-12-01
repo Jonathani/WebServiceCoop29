@@ -1,9 +1,15 @@
 package controller;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.io.StringReader;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.xml.bind.DatatypeConverter;
@@ -21,6 +27,10 @@ import javax.xml.soap.SOAPPart;
 
 import model.Cliente;
 
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
 import org.w3c.dom.Node;
 import org.w3c.dom.bootstrap.DOMImplementationRegistry;
 import org.w3c.dom.ls.DOMImplementationLS;
@@ -34,6 +44,14 @@ public class ClienteBean {
 	private Cliente cliente;
 	private DateFormat formatoFecha;
 	private String respuesta;
+	private String tipoDocumento;
+	private String numeroDocumento;
+	private String fechaNacimiento;
+	private String genero;
+	private String estadoCivil;
+	private String tipoCredito;
+	private String convenio;
+	private String cargas;
 
 	public ClienteBean() {
 		super();
@@ -43,18 +61,67 @@ public class ClienteBean {
 
 	public String consulta() throws Exception {
 
+		SAXBuilder builder = new SAXBuilder();
+		File filexml = new File("datos.xml");
+
+		// Se crea el documento a traves del archivo
+		Document document = (Document) builder.build(filexml);
+
+		// Se obtiene la raiz 'tables'
+		Element rootNode = document.getRootElement();
+
+		// Se obtiene la lista de hijos de la raiz 'tables'
+		List list = rootNode.getChildren("cliente");
+
+		for (int i = 0; i < list.size(); i++) {
+
+			// Se obtiene el elemento 'cliente'
+			Element cliente = (Element) list.get(i);
+
+			// Se obtiene el atributo 'nombre' que esta en el tag 'cliente'
+			String nombreTabla = cliente.getAttributeValue("nombre");
+
+			System.out.println("Cliente No : " + nombreTabla);
+
+			// Se obtiene la lista de hijos del tag 'cliente'
+			List lista_campos = cliente.getChildren();
+
+			// Se recorre la lista de campos
+			for (int j = 0; j < lista_campos.size(); j++) {
+				// Se obtiene el elemento 'campo'
+				Element campo = (Element) lista_campos.get(j);
+
+				this.tipoDocumento = campo.getChildTextTrim("tipoDocumento");
+
+				this.numeroDocumento = campo.getChildTextTrim("cedulaClie");
+
+				this.fechaNacimiento = campo
+						.getChildTextTrim("fechaNacimiento");
+
+				this.genero = campo.getChildTextTrim("genero");
+
+				this.estadoCivil = campo.getChildTextTrim("estadoCivil");
+
+				this.tipoCredito = campo.getChildTextTrim("tipoCredito");
+
+				this.convenio = campo.getChildTextTrim("convenio");
+
+				this.cargas = campo.getChildTextTrim("cargas");
+
+			}
+		}
+
+		// ClienteBean bean = new ClienteBean();
+
 		String[] variables2 = { "tipoDocumento", "numeroDocumento",
 				"fechaNacimiento", "genero", "EstadoCivil", "TipoCredito",
 				"Convenio", "Cargas" };
 
-		Object[] values2 = { cliente.getTipoDocumento(),
-				cliente.getNumeroDocumento(),
-				formatoFecha.format(cliente.getFechaNacimiento()),
-				cliente.getGenero(), cliente.getEstadoCivil(),
-				cliente.getTipoCredito(), cliente.getConvenio(),
-				cliente.getCargas() };
-		// Object[] values2 = { "C", "1718297383", "1989-10-02", "M", "S",
-		// "C", "S", "N" };
+		Object[] values2 = { this.tipoDocumento, this.numeroDocumento,
+				this.fechaNacimiento, this.genero, this.estadoCivil,
+				this.tipoCredito, this.convenio, this.cargas };
+		// Object[] values2 = { "C", "1718297383", "1989-10-02", "M", "S", "C",
+		// "S", "N" };
 
 		SOAPMessage inputMessage2;
 		inputMessage2 = createSOAPRequest("ObtenerReporte29deOctubre",
@@ -64,6 +131,20 @@ public class ClienteBean {
 		System.out.println(respuesta);
 		System.out.println(format(response));
 		return respuesta;
+	}
+
+	public static Date fechaFormato(String fecha) {
+		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+		String strFecha = fecha;
+		Date fechaDate = null;
+		try {
+			fechaDate = formato.parse(strFecha);
+			System.out.println(fechaDate.toString());
+			return fechaDate;
+		} catch (ParseException ex) {
+			ex.printStackTrace();
+			return fechaDate;
+		}
 	}
 
 	public String format(String xml) {
