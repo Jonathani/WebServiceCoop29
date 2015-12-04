@@ -7,7 +7,9 @@ import java.io.StringReader;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -25,17 +27,26 @@ import javax.xml.soap.SOAPHeader;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import model.Cliente;
+import model.Cliente2;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
-import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.w3c.dom.Node;
 import org.w3c.dom.bootstrap.DOMImplementationRegistry;
 import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSSerializer;
 import org.xml.sax.InputSource;
+
+import com.thoughtworks.xstream.XStream;
 
 @ManagedBean
 @ViewScoped
@@ -52,6 +63,7 @@ public class ClienteBean {
 	private String tipoCredito;
 	private String convenio;
 	private String cargas;
+	private String cedulaAux;
 
 	public ClienteBean() {
 		super();
@@ -61,76 +73,173 @@ public class ClienteBean {
 
 	public String consulta() throws Exception {
 
-		SAXBuilder builder = new SAXBuilder();
-		File filexml = new File("datos.xml");
+		XStream xstream = new XStream();
+		Cliente cliente;
+		cliente = new Cliente("C", "1718297383", "1989-10-02", "M", "S", "C",
+				"S", "N");
+		xstream.alias("cliente", Cliente.class);
 
-		// Se crea el documento a traves del archivo
-		Document document = (Document) builder.build(filexml);
+		String xml = xstream.toXML(cliente);
 
-		// Se obtiene la raiz 'tables'
-		Element rootNode = document.getRootElement();
+		XStream xStream = new XStream();
+		xStream.processAnnotations(Cliente2.class);
+		xstream.alias("tipoDocumento", String.class);
+		xstream.alias("numeroDocumento", String.class);
+		xstream.alias("fechaNacimiento", String.class);
+		xstream.alias("genero", String.class);
+		xstream.alias("estadoCivil", String.class);
+		xstream.alias("tipoCredito", String.class);
+		xstream.alias("convenio", String.class);
+		xstream.alias("cargas", String.class);
 
-		// Se obtiene la lista de hijos de la raiz 'tables'
-		List list = rootNode.getChildren("cliente");
+		Cliente2 clienteObject = (Cliente2) xStream.fromXML(xml);
+		this.cedulaAux = clienteObject.getNumeroDocumento();
 
-		for (int i = 0; i < list.size(); i++) {
+		File file;
+		FileReader fileReader;
+		BufferedReader br;
+		String leer;
 
-			// Se obtiene el elemento 'cliente'
-			Element cliente = (Element) list.get(i);
+		file = new File("C:/Users/Fernando/Desktop/Buro/Consultas/Buro" + "["
+				+ this.cedulaAux + "]" + ".xml");
+		long dias = diasTranscurridos();
 
-			// Se obtiene el atributo 'nombre' que esta en el tag 'cliente'
-			String nombreTabla = cliente.getAttributeValue("nombre");
+		if (file.exists() && file.isFile() || file.length() > 0
+				|| file.canRead()) {
+			if (dias <= 45) {
+				fileReader = new FileReader(file);
+				br = new BufferedReader(fileReader);
+				while ((leer = br.readLine()) != null) {
+					System.out.println("Ya existe");
+					System.out.println(diasTranscurridos());
+				}
+				br.close();
+				return "Ya existe";
+			} else {
+				file.delete();
+				String[] variables2 = { "tipoDocumento", "numeroDocumento",
+						"fechaNacimiento", "genero", "EstadoCivil",
+						"TipoCredito", "Convenio", "Cargas" };
 
-			System.out.println("Cliente No : " + nombreTabla);
+				Object[] values2 = { clienteObject.getTipoDocumento(),
+						clienteObject.getNumeroDocumento(),
+						clienteObject.getFechaNacimiento(),
+						clienteObject.getGenero(),
+						clienteObject.getEstadoCivil(),
+						clienteObject.getTipoCredito(),
+						clienteObject.getConvenio(), clienteObject.getCargas() };
+				// Object[] values2 = { "C", "1718297383", "1989-10-02", "M",
+				// "S",
+				// "C",
+				// "S", "N" };
 
-			// Se obtiene la lista de hijos del tag 'cliente'
-			List lista_campos = cliente.getChildren();
-
-			// Se recorre la lista de campos
-			for (int j = 0; j < lista_campos.size(); j++) {
-				// Se obtiene el elemento 'campo'
-				Element campo = (Element) lista_campos.get(j);
-
-				this.tipoDocumento = campo.getChildTextTrim("tipoDocumento");
-
-				this.numeroDocumento = campo.getChildTextTrim("cedulaClie");
-
-				this.fechaNacimiento = campo
-						.getChildTextTrim("fechaNacimiento");
-
-				this.genero = campo.getChildTextTrim("genero");
-
-				this.estadoCivil = campo.getChildTextTrim("estadoCivil");
-
-				this.tipoCredito = campo.getChildTextTrim("tipoCredito");
-
-				this.convenio = campo.getChildTextTrim("convenio");
-
-				this.cargas = campo.getChildTextTrim("cargas");
-
+				SOAPMessage inputMessage2;
+				inputMessage2 = createSOAPRequest("ObtenerReporte29deOctubre",
+						variables2, values2);
+				String response = sendMessage(inputMessage2);
+				respuesta = format(response);
+				System.out.println(respuesta);
+				guardarArchivo();
+				System.out.println(format(response));
+				return respuesta;
 			}
+
+		} else {
+			String[] variables2 = { "tipoDocumento", "numeroDocumento",
+					"fechaNacimiento", "genero", "EstadoCivil", "TipoCredito",
+					"Convenio", "Cargas" };
+
+			Object[] values2 = { clienteObject.getTipoDocumento(),
+					clienteObject.getNumeroDocumento(),
+					clienteObject.getFechaNacimiento(),
+					clienteObject.getGenero(), clienteObject.getEstadoCivil(),
+					clienteObject.getTipoCredito(),
+					clienteObject.getConvenio(), clienteObject.getCargas() };
+			// Object[] values2 = { "C", "1718297383", "1989-10-02", "M",
+			// "S",
+			// "C",
+			// "S", "N" };
+
+			SOAPMessage inputMessage2;
+			inputMessage2 = createSOAPRequest("ObtenerReporte29deOctubre",
+					variables2, values2);
+			String response = sendMessage(inputMessage2);
+			respuesta = format(response);
+			System.out.println(respuesta);
+			guardarArchivo();
+			System.out.println(format(response));
+			return respuesta;
 		}
 
-		// ClienteBean bean = new ClienteBean();
+	}
 
-		String[] variables2 = { "tipoDocumento", "numeroDocumento",
-				"fechaNacimiento", "genero", "EstadoCivil", "TipoCredito",
-				"Convenio", "Cargas" };
+	public long diasTranscurridos() {
 
-		Object[] values2 = { this.tipoDocumento, this.numeroDocumento,
-				this.fechaNacimiento, this.genero, this.estadoCivil,
-				this.tipoCredito, this.convenio, this.cargas };
-		// Object[] values2 = { "C", "1718297383", "1989-10-02", "M", "S", "C",
-		// "S", "N" };
+		File file;
+		file = new File("C:/Users/Fernando/Desktop/Buro/Consultas/Buro" + "["
+				+ this.cedulaAux + "]" + ".xml");
 
-		SOAPMessage inputMessage2;
-		inputMessage2 = createSOAPRequest("ObtenerReporte29deOctubre",
-				variables2, values2);
-		String response = sendMessage(inputMessage2);
-		respuesta = format(response);
-		System.out.println(respuesta);
-		System.out.println(format(response));
-		return respuesta;
+		long ms = file.lastModified();
+
+		Date fechaCreacion = new Date(ms);
+		Calendar c = new GregorianCalendar();
+		c.setTime(fechaCreacion);
+
+		int diaCreacion, mesCreacion, annioCreacion;
+
+		diaCreacion = c.get(Calendar.DATE);
+		mesCreacion = c.get(Calendar.MONTH);
+		annioCreacion = c.get(Calendar.YEAR);
+
+		Date fechaActual = new Date();
+		Calendar a = new GregorianCalendar();
+		a.setTime(fechaActual);
+
+		int diaActual, mesActual, annioActual;
+		diaActual = a.get(Calendar.DATE);
+		mesActual = a.get(Calendar.MONTH);
+		annioActual = a.get(Calendar.YEAR);
+
+		Calendar cal1 = Calendar.getInstance();
+		Calendar cal2 = Calendar.getInstance();
+
+		// Establecer las fechas
+		cal1.set(annioCreacion, mesCreacion, diaCreacion);
+		cal2.set(annioActual, mesActual, diaActual);
+
+		// conseguir la representacion de la fecha en milisegundos
+		long milis1 = cal1.getTimeInMillis();
+		long milis2 = cal2.getTimeInMillis();
+
+		// calcular la diferencia en milisengundos
+		long diff = milis2 - milis1;
+
+		// calcular la diferencia en dias
+		long diffDays = diff / (24 * 60 * 60 * 1000);
+
+		return diffDays;
+	}
+
+	public void guardarArchivo() throws FileNotFoundException, IOException {
+		Date fechaActual = new Date();
+		DateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+		File file;
+		FileWriter fileWriter;
+
+		file = new File("C:/Users/Fernando/Desktop/Buro/Consultas/Buro" + "["
+				+ this.cedulaAux + "]" + ".xml");
+		file.delete();
+		try {
+			fileWriter = new FileWriter(file);
+			fileWriter.write("<fechaConsulta>"
+					+ formatoFecha.format(fechaActual) + "</fechaConsulta>"
+					+ "\n" + this.respuesta);
+			fileWriter.close();
+		} catch (IOException ex) {
+			Logger.getLogger(ClienteBean.class.getName()).log(Level.SEVERE,
+					null, ex);
+		}
+
 	}
 
 	public static Date fechaFormato(String fecha) {
@@ -284,6 +393,14 @@ public class ClienteBean {
 
 	public void setRespuesta(String respuesta) {
 		this.respuesta = respuesta;
+	}
+
+	public String getCedulaAux() {
+		return cedulaAux;
+	}
+
+	public void setCedulaAux(String cedulaAux) {
+		this.cedulaAux = cedulaAux;
 	}
 
 }

@@ -1,23 +1,32 @@
 package model;
 
-import java.util.Date;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 
-public class Cliente {
+@XStreamAlias("cliente")
+public class Cliente2 {
+
+	@XStreamAlias("tipoDocumento")
 	private String tipoDocumento;
+	@XStreamAlias("numeroDocumento")
 	private String numeroDocumento;
+	@XStreamAlias("fechaNacimiento")
 	private String fechaNacimiento;
-	private String fechaNacimiento1;
+	@XStreamAlias("genero")
 	private String genero;
+	@XStreamAlias("estadoCivil")
 	private String estadoCivil;
+	@XStreamAlias("tipoCredito")
 	private String tipoCredito;
+	@XStreamAlias("convenio")
 	private String convenio;
+	@XStreamAlias("cargas")
 	private String cargas;
 
-	public Cliente() {
+	public Cliente2() {
 		super();
 	}
 
-	public Cliente(String tipoDocumento, String numeroDocumento,
+	public Cliente2(String tipoDocumento, String numeroDocumento,
 			String fechaNacimiento, String genero, String estadoCivil,
 			String tipoCredito, String convenio, String cargas) {
 		super();
@@ -47,20 +56,20 @@ public class Cliente {
 		this.numeroDocumento = numeroDocumento;
 	}
 
+	public String getFechaNacimiento() {
+		return fechaNacimiento;
+	}
+
+	public void setFechaNacimiento(String fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
+	}
+
 	public String getGenero() {
 		return genero;
 	}
 
 	public void setGenero(String genero) {
 		this.genero = genero;
-	}
-
-	public String getFechaNacimiento1() {
-		return fechaNacimiento1;
-	}
-
-	public void setFechaNacimiento1(String fechaNacimiento1) {
-		this.fechaNacimiento1 = fechaNacimiento1;
 	}
 
 	public String getEstadoCivil() {
